@@ -1,9 +1,16 @@
+import { useEffect } from "react";
 import { TiMessages } from "react-icons/ti";
+import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 
 const MessageContainer = () => {
-  const selectedConversation = false;
+  const { selectedConversation, setSelectedConversation } = useConversation();
+
+  useEffect(() => {
+    return () => setSelectedConversation(null);
+  }, [setSelectedConversation]);
+
   return (
     <div className="md:min-w-[450px] flex flex-col">
       {!selectedConversation ? (
