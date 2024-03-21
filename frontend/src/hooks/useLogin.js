@@ -2,40 +2,25 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
-const useSignup = () => {
+export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const { setAuthUser } = useAuthContext();
 
-  const signup = async ({
-    fullName,
-    username,
-    password,
-    confirmPassword,
-    gender,
-  }) => {
+  const login = async ({ username, password }) => {
     const success = handleInputErrors({
-      fullName,
       username,
       password,
-      confirmPassword,
-      gender,
     });
 
     if (!success) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          fullName,
-          username,
-          password,
-          confirmPassword,
-          gender,
-        }),
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await res.json();
@@ -51,30 +36,13 @@ const useSignup = () => {
       setLoading(false);
     }
   };
-  return { signup, loading };
+
+  return { loading, login };
 };
 
-export default useSignup;
-
-function handleInputErrors({
-  fullName,
-  username,
-  password,
-  confirmPassword,
-  gender,
-}) {
-  if (!fullName || !username || !password || !confirmPassword || !gender) {
+function handleInputErrors({ username, password }) {
+  if (!username || !password) {
     toast.error("Please fill all the fields");
-    return false;
-  }
-
-  if (password !== confirmPassword) {
-    toast.error("Passwords do not match");
-    return false;
-  }
-
-  if (password.length < 6) {
-    toast.error("Password must be at least 6 characters long");
     return false;
   }
   return true;
