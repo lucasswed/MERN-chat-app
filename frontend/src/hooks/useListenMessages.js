@@ -18,6 +18,7 @@ const useListenMessages = () => {
         const sound = new Audio(notificationSound);
         sound
           .play()
+          // eslint-disable-next-line no-unused-vars
           .catch((error) => {})
           .finally(() => toast("New message", { icon: "🔔" }));
         return;

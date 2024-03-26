@@ -25,7 +25,7 @@ const useGetConversations = () => {
     getConverstions();
   }, []);
 
-  return { loading, conversations };
+  return { loading, conversations, setConversations };
 };
 
 export default useGetConversations;
