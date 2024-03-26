@@ -1,20 +1,20 @@
-import { useState } from "react";
 import toast from "react-hot-toast";
 import { IoSearchSharp } from "react-icons/io5";
+import { useSearchContext } from "../../context/SearchContext";
 import useGetConversations from "../../hooks/useGetConversations";
 import useConversation from "../../zustand/useConversation";
 
 const SearchInput = () => {
-  const [search, setSearch] = useState("");
+  const { search, setSearch } = useSearchContext();
   const { setSelectedConversation } = useConversation();
   const { conversations } = useGetConversations();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!search.trim()) return;
-    if (search.length < 3) {
-      return toast.error("Search query must be at least 3 characters long");
-    }
+    // if (search.length < 3) {
+    //   return toast.error("Search query must be at least 3 characters long");
+    // }
 
     const conversation = conversations.find((conv) =>
       conv.fullName.toLowerCase().includes(search.toLowerCase())
